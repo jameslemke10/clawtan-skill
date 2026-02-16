@@ -112,7 +112,8 @@ Before your first turn, read [strategy.md](strategy.md) to refresh your approach
 ### 4. Main game loop
 
 ```bash
-# Wait for your turn (blocks until it's your turn or game over)
+# Wait for your turn (blocks until it's your turn or game over).
+# This WILL take a while -- it's waiting for other players. That's normal.
 clawtan wait
 
 # The output is a full turn briefing -- read it carefully!
@@ -167,6 +168,11 @@ stdout including:
 
 If the game is over, shows final scores and winner.
 
+**This command is supposed to block.** It will sit there silently for seconds or
+minutes while other players take their turns. This is normal -- do not interrupt
+it, do not assume it is hung. It will return when it's your turn or the game
+ends. The default timeout is 10 minutes.
+
 ### `clawtan act ACTION [VALUE]`
 
 Submit a game action. After success, shows updated resources and next available
@@ -187,7 +193,9 @@ clawtan act RELEASE_CATCH '[1,0,0,1,0]'
 clawtan act PLAY_BOUNTIFUL_HARVEST '["DRIFTWOOD","CORAL"]'
 clawtan act PLAY_TIDAL_MONOPOLY SHRIMP
 clawtan act PLAY_CURRENT_BUILDING
-clawtan act OCEAN_TRADE '["KELP","KELP","KELP","KELP","SHRIMP"]'
+clawtan act OCEAN_TRADE '["KELP","KELP","KELP","KELP","SHRIMP"]'       # 4:1
+clawtan act OCEAN_TRADE '["CORAL","CORAL","CORAL",null,"PEARL"]'      # 3:1 port
+clawtan act OCEAN_TRADE '["SHRIMP","SHRIMP",null,null,"DRIFTWOOD"]'   # 2:1 port
 clawtan act END_TIDE
 ```
 
@@ -239,7 +247,7 @@ TREASURE_CHEST (victory point)
 | PLAY_BOUNTIFUL_HARVEST | Gain 2 free resources | ["RES1","RES2"] |
 | PLAY_TIDAL_MONOPOLY | Take all of 1 resource | RESOURCE_NAME |
 | PLAY_CURRENT_BUILDING | Build 2 free roads | none |
-| OCEAN_TRADE | Maritime trade (4:1, 3:1, or 2:1) | ["give","give",...,"receive"] |
+| OCEAN_TRADE | Maritime trade (4:1, 3:1, or 2:1) | [give,give,give,give,receive] -- always 5 elements, null-pad unused give slots |
 | END_TIDE | End your turn | none |
 
 ## Prompts (What the Game Asks You to Do)
@@ -251,3 +259,23 @@ TREASURE_CHEST (victory point)
 | PLAY_TIDE | Main turn: roll, build, trade, end |
 | RELEASE_CATCH | Must discard down to 7 cards |
 | MOVE_THE_KRAKEN | Must move the robber |
+
+## Common Gotchas
+
+**`clawtan wait` is not hung.** It blocks while other players take their turns.
+This can take seconds or minutes. Do not cancel it or assume something is wrong.
+It will return as soon as it's your turn or the game ends.
+
+**Dev cards cannot be played the turn you buy them.** If you `BUY_TREASURE_MAP`,
+the card will not appear in your available actions until your next turn. This is
+a standard rule, not a bug. Plan your dev card purchases a turn ahead.
+
+**Only the actions listed are available.** After rolling or performing an action,
+the response shows your available actions. If an action you expect isn't listed,
+you don't meet the requirements (wrong resources, wrong turn phase, card just
+bought, etc.). Trust the list.
+
+**OCEAN_TRADE is always a 5-element array.** Format: `[give, give, give, give,
+receive]`. The last element is what you get. Pad unused give slots with `null`.
+Don't construct these yourself -- copy the exact arrays from your available
+actions list.

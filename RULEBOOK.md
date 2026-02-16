@@ -117,16 +117,26 @@ supply (so you can build it again elsewhere).
 
 #### Trade
 
-**Ocean Trade (maritime):** Trade with the "bank" at these rates:
-- Default: **4:1** (give 4 of one resource, receive 1 of any)
-- 3:1 generic port: **3:1** (if you have a building adjacent to one)
-- 2:1 specialty port: **2:1** for the named resource
+**Ocean Trade (maritime):** Trade with the "bank" (not other players).
 
-Action: `OCEAN_TRADE` with an array of resources to give followed by the one to
-receive. Example: `["KELP","KELP","KELP","KELP","SHRIMP"]` gives 4 KELP for 1
-SHRIMP.
+**The value is always a 5-element array:** `[give, give, give, give, receive]`.
+The **last element** is always what you receive. The first four are what you give.
+Use `null` for unused give slots.
 
-The available trade options are listed in your available actions after rolling.
+**Trade rates and examples:**
+
+| Rate | Requirement | Value |
+|---|---|---|
+| 4:1 | Default (always available) | `["KELP","KELP","KELP","KELP","SHRIMP"]` |
+| 3:1 | Building on a 3:1 generic port | `["CORAL","CORAL","CORAL",null,"PEARL"]` |
+| 2:1 | Building on a 2:1 port for that resource | `["SHRIMP","SHRIMP",null,null,"DRIFTWOOD"]` |
+
+**Key points:**
+- The array is **always 5 elements**. Pad unused give slots with `null`.
+- The **last element** is always what you receive. The rest is what you pay.
+- **You don't need to figure out which trades are possible.** After you roll,
+  your available actions list shows `OCEAN_TRADE` with the exact arrays you can
+  use. Copy one of those arrays exactly as your value.
 
 #### Play Development Cards (Treasure Maps)
 
