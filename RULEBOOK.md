@@ -130,6 +130,9 @@ The available trade options are listed in your available actions after rolling.
 
 #### Play Development Cards (Treasure Maps)
 
+**Cost to buy:** 1 SHRIMP, 1 KELP, 1 PEARL (action: `BUY_TREASURE_MAP`).
+You draw a random card from the deck.
+
 You may play **at most 1 dev card per turn** (except TREASURE_CHEST, which is
 revealed automatically). You **cannot play a card on the same turn you bought
 it**.
