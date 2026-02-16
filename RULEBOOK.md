@@ -180,7 +180,7 @@ Largest Army for 2 VP. If another player plays more, they take it.
 
 ## The Kraken (Robber)
 
-The Kraken starts on the DESERT tile. It is moved when:
+The Kraken starts on the DEEP_SEA tile. It is moved when:
 - A 7 is rolled (by the rolling player, after discards)
 - A LOBSTER_GUARD is played
 
