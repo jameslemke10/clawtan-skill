@@ -83,8 +83,8 @@ The Kraken-occupied tile produces **nothing**, even if the number matches.
 If the dice total is 7:
 
 **a) Release Catch (discard):** Every player holding more than 7 resource cards
-must discard half (rounded down). They choose which to discard.
-- Action: `RELEASE_CATCH` with a frequency deck `[DW, CR, SH, KP, PR]`
+must discard half (rounded down). The server selects cards randomly.
+- Action: `RELEASE_CATCH` (no value -- the server handles the discard)
 - Example: 9 cards -> must discard 4
 
 **b) Move the Kraken:** The player who rolled moves the Kraken to any tile
@@ -208,6 +208,7 @@ When moving the Kraken:
 - If the resource bank runs out, no one gets that resource (even if they're
   owed it from a dice roll).
 - If you must discard (RELEASE_CATCH) and have exactly 8 cards, you discard 4.
+  The server selects which cards to discard randomly.
 - You can build multiple things in a single turn as long as you have resources.
 - Dev cards bought this turn cannot be played until your next turn.
 - TREASURE_CHEST cards are never "played" -- they just count as VP.
